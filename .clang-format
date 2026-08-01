@@ -1,0 +1,68 @@
+---
+# Requires clang-format 22 or newer.
+Language: Cpp
+BasedOnStyle: LLVM
+Standard: Latest
+
+IndentWidth: 4
+TabWidth: 4
+ContinuationIndentWidth: 4
+UseTab: Always
+AccessModifierOffset: -4
+
+ColumnLimit: 140
+PenaltyExcessCharacter: 1
+PenaltyBreakAssignment: 114514
+PenaltyBreakBeforeFirstCallParameter: 114514
+
+BreakStringLiterals: false
+BreakBeforeBraces: Allman
+
+AllowShortBlocksOnASingleLine: Never
+AllowShortFunctionsOnASingleLine: Empty
+AllowShortIfStatementsOnASingleLine: Never
+AllowShortLoopsOnASingleLine: false
+AllowShortLambdasOnASingleLine: None
+AllowShortEnumsOnASingleLine: false
+
+SpaceBeforeParens: Custom
+SpaceBeforeParensOptions:
+  AfterControlStatements: false
+  AfterForeachMacros: false
+  AfterFunctionDeclarationName: false
+  AfterFunctionDefinitionName: false
+  AfterIfMacros: false
+  AfterOverloadedOperator: false
+  BeforeNonEmptyParentheses: false
+
+BreakTemplateDeclarations: Yes
+SpaceAfterTemplateKeyword: false
+SpacesInAngles: Never
+
+BreakAfterAttributes: Never
+
+DerivePointerAlignment: false
+PointerAlignment: Left
+ReferenceAlignment: Pointer
+
+NamespaceIndentation: None
+CompactNamespaces: false
+FixNamespaceComments: true
+ShortNamespaceLines: 0
+KeepEmptyLinesAtTheStartOfBlocks: true
+MaxEmptyLinesToKeep: 3
+
+BinPackArguments: true
+BinPackParameters: true
+AllowAllArgumentsOnNextLine: false
+AllowAllParametersOfDeclarationOnNextLine: false
+
+SortIncludes: false
+IncludeBlocks: Preserve
+
+NumericLiteralCase:
+  ExponentLetter: Lower
+  HexDigit: Lower
+  Prefix: Lower
+  Suffix: Lower
+...

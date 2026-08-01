@@ -1,0 +1,7 @@
+[submodule "deps/fxc2/repo"]
+	path = deps/fxc2/repo
+	url = https://github.com/mozilla/fxc2.git
+[submodule "deps/FFmpeg/repo"]
+	path = deps/FFmpeg/repo
+	url = https://github.com/FFmpeg/FFmpeg.git
+	branch = release/9.0

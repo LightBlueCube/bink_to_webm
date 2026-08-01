@@ -1,0 +1,33 @@
+diff --git a/fxc2.cpp b/fxc2.cpp
+index 30c92a4..5eab983 100755
+--- a/fxc2.cpp
++++ b/fxc2.cpp
+@@ -179,21 +179,14 @@ int main(int argc, char* argv[])
+   // ====================================================================================
+   // Shader Compilation
+ 
+-  //Find the WINDOWS dll
+-  char dllPath[ MAX_PATH ];
+-  int bytes = GetModuleFileName(NULL, dllPath, MAX_PATH);
+-  if(bytes == 0) {
+-    printf("Could not retrieve the directory of the running executable.\n");
+-    return 1;
+-  }
+-  //Fill rest of the buffer with NULLs
+-  memset(dllPath + bytes, '\0', MAX_PATH - bytes);
+-  //Copy the dll location over top fxc2.exe
+-  strcpy(strrchr(dllPath, '\\') + 1, "d3dcompiler_47.dll");
+-  
+-  HMODULE h = LoadLibrary(dllPath);
++  HMODULE h = LoadLibraryA("d3dcompiler_47.dll");
+   if(h == NULL) {
+-    printf("Error: could not load d3dcompiler_47.dll from %s\n", dllPath);
++    printf("Error: could not load d3dcompiler_47.dll.");
++
++    LPSTR messageBuffer = nullptr;
++    size_t size = FormatMessageA(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
++                                 NULL, GetLastError(), MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), (LPSTR)&messageBuffer, 0, NULL);
++    printf("Windows Error Message: %s\n", messageBuffer);
+     return 1;
+   }
+ 
