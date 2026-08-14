@@ -1,4 +1,4 @@
 build*
 *.bak*
 *.clangd
-todo*
+*.kate-swp
