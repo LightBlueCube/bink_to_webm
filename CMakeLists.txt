@@ -42,7 +42,9 @@ target_compile_options(bik_to_webm PRIVATE
 	-Wpedantic
 	-Wshadow
 	-Werror
-	-g
+
+	-fanalyzer
+	-O2 -g
 )
 
 target_include_directories(bik_to_webm PRIVATE
