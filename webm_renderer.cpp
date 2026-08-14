@@ -96,15 +96,16 @@ constexpr size_t RENDER_CONTEXT_CURRENT_MATERIAL_OFFSET = 0x18;
 HMODULE MaterialSystem = nullptr;
 void* MaterialSystemInterface = nullptr;
 ID3D11Device** MaterialSystemDevice = nullptr;
+
 ID3D11PixelShader** MaterialSystemCurrentPixelShader = nullptr;
 std::atomic_bool ReplacementShaderActive = false;
-std::unordered_map<void*, std::shared_ptr<AlphaTextureEntry>> AlphaTextures;
 ID3D11PixelShader* LastBinkShader = nullptr;
+std::unordered_map<void*, std::shared_ptr<AlphaTextureEntry>> AlphaTextures;
 
 ID3D11PixelShader* WebmPixelShader = nullptr;
 ID3D11BlendState* WebmBlendState = nullptr;
-ID3D11ShaderResourceView* OpaqueAlphaView = nullptr;
 ID3D11SamplerState* AlphaSampler = nullptr;
+ID3D11ShaderResourceView* OpaqueAlphaView = nullptr;
 
 std::mutex RendererMutex;
 

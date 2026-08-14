@@ -59,7 +59,7 @@ bool WebmDecoder::Open(const std::filesystem::path& path)
 	m_videoStreamIndex = av_find_best_stream(m_formatContext, AVMEDIA_TYPE_VIDEO, -1, -1, nullptr, 0);
 	if(m_videoStreamIndex < 0)
 	{
-		return FailCleanup("Failed while finding video stream: {}", GetFFmpegError(result));
+		return FailCleanup("Failed while finding video stream: {}", GetFFmpegError(m_videoStreamIndex));
 	}
 	m_videoStream = m_formatContext->streams[m_videoStreamIndex];
 	AVCodecID videoCodec = m_videoStream->codecpar->codec_id;
@@ -78,7 +78,7 @@ bool WebmDecoder::Open(const std::filesystem::path& path)
 	m_audioStreamIndex = av_find_best_stream(m_formatContext, AVMEDIA_TYPE_AUDIO, -1, -1, nullptr, 0);
 	if(m_audioStreamIndex < 0 && m_audioStreamIndex != AVERROR_STREAM_NOT_FOUND)
 	{
-		return FailCleanup("Failed while finding audio stream: {}", GetFFmpegError(result));
+		return FailCleanup("Failed while finding audio stream: {}", GetFFmpegError(m_audioStreamIndex));
 	}
 	if(m_audioStreamIndex >= 0)
 	{
@@ -112,7 +112,7 @@ bool WebmDecoder::Open(const std::filesystem::path& path)
 	if(m_audioDecoder)
 	{
 		if(!(m_audioFrame = av_frame_alloc()))
-			return FailCleanup("Could not allocate {}", "m_audioFrame ");
+			return FailCleanup("Could not allocate {}", "m_audioFrame");
 	}
 	if(!(m_packet = av_packet_alloc()))
 		return FailCleanup("Could not allocate {}", "m_packet");
@@ -186,6 +186,7 @@ bool WebmDecoder::SeekFrame(uint32_t frame)
 	int64_t timestamp = av_rescale_q(frame, av_inv_q(frameRate), m_videoStream->time_base);
 	if(m_videoStream->start_time != AV_NOPTS_VALUE)
 		timestamp += m_videoStream->start_time;
+
 	int result = av_seek_frame(m_formatContext, m_videoStreamIndex, timestamp, AVSEEK_FLAG_BACKWARD);
 	if(result < 0)
 	{
@@ -400,6 +401,7 @@ bool WebmDecoder::ReceiveAudioFrames()
 		{
 			if(result == AVERROR(EAGAIN))
 				return true;
+
 			if(result == AVERROR_EOF)
 			{
 				swr_free(&m_audioResampler);

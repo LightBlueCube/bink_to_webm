@@ -3,13 +3,13 @@
 
 #include "MinHook.h"
 
-#define MH_CHECK_FAILD(status)                                                                                                             \
+#define MH_CHECK_FAILED(status)                                                                                                            \
 	[&]() -> bool                                                                                                                          \
 	{                                                                                                                                      \
 		MH_STATUS _status = (status);                                                                                                      \
 		if(_status != MH_OK)                                                                                                               \
 		{                                                                                                                                  \
-			PluginLogError("[{}:{}] MH_CHECK_FAILD: {}", __FILE__, __LINE__, MH_StatusToString(_status));                                  \
+			PluginLogError("[{}:{}] MH_CHECK_FAILED: {}", __FILE__, __LINE__, MH_StatusToString(_status));                                 \
 			return false;                                                                                                                  \
 		}                                                                                                                                  \
 		return true;                                                                                                                       \
@@ -38,17 +38,17 @@ namespace HookUtils
 
 [[nodiscard]] bool InitMinHook()
 {
-	return MH_CHECK_FAILD(MH_Initialize());
+	return MH_CHECK_FAILED(MH_Initialize());
 }
 
 [[nodiscard]] bool EnableMinHook(void* target)
 {
-	return MH_CHECK_FAILD(MH_EnableHook(target));
+	return MH_CHECK_FAILED(MH_EnableHook(target));
 }
 
 [[nodiscard]] bool UninitMinHook()
 {
-	return MH_CHECK_FAILD(MH_Uninitialize());
+	return MH_CHECK_FAILED(MH_Uninitialize());
 }
 
 
@@ -72,7 +72,7 @@ void ModuleExport(HMODULE module, uintptr_t rva, void** target)
 
 [[nodiscard]] bool AddHook(void* address, void* detour, void** original)
 {
-	return MH_CHECK_FAILD(MH_CreateHook(address, detour, original));
+	return MH_CHECK_FAILED(MH_CreateHook(address, detour, original));
 }
 
 [[nodiscard]] bool HookExport(HMODULE module, const char* name, void* detour, void** original)
@@ -93,4 +93,4 @@ void ModuleExport(HMODULE module, uintptr_t rva, void** target)
 
 }; // namespace HookUtils
 
-#undef MH_CHECK_FAILD
+#undef MH_CHECK_FAILED

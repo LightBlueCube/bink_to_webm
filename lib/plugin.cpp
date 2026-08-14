@@ -37,7 +37,7 @@ public:
 		case PluginField::CONTEXT:
 			return PluginContext::CLIENT;
 
-		// #00ffa0
+		// they read as little-endian, actual color is #00ffa0
 		case PluginField::COLOR:
 			return 0xa0ff00;
 		}
@@ -49,7 +49,7 @@ public:
 static std::atomic_uint32_t HookStatus = 0b0;
 static std::atomic_bool HasError = false;
 static std::atomic_bool HookEnabled = false;
-static void Successed(size_t id)
+static void LoadSucceeded(size_t id)
 {
 	HookStatus |= 1u << id;
 }
@@ -71,7 +71,7 @@ public:
 
 		if(!HookUtils::InitMinHook())
 		{
-			PluginLogError("faild to initialize MinHook");
+			PluginLogError("failed to initialize MinHook");
 			ErrorOccurred();
 			return;
 		}
@@ -115,25 +115,25 @@ public:
 
 		if(_stricmp(name, "engine.dll") == 0)
 		{
-			RegisterWebmHooks_engine(module) ? Successed(0) : ErrorOccurred();
+			RegisterWebmHooks_engine(module) ? LoadSucceeded(0) : ErrorOccurred();
 		}
 		else if(_stricmp(name, "client.dll") == 0)
 		{
 			SetupWebmAudio_client(module);
-			RegisterWebmHooks_client(module) ? Successed(1) : ErrorOccurred();
-			InstallPlayVideoEXCommand(module) ? Successed(2) : ErrorOccurred();
+			RegisterWebmHooks_client(module) ? LoadSucceeded(1) : ErrorOccurred();
+			InstallPlayVideoEXCommand(module) ? LoadSucceeded(2) : ErrorOccurred();
 		}
 		else if(_stricmp(name, "mileswin64.dll") == 0)
 		{
-			SetupWebmAudio_mileswin64(module) ? Successed(3) : ErrorOccurred();
+			SetupWebmAudio_mileswin64(module) ? LoadSucceeded(3) : ErrorOccurred();
 		}
 		else if(_stricmp(name, "bink2w64.dll") == 0)
 		{
-			RegisterWebmHooks_bink2w64(module) ? Successed(4) : ErrorOccurred();
+			RegisterWebmHooks_bink2w64(module) ? LoadSucceeded(4) : ErrorOccurred();
 		}
 		else if(_stricmp(name, "materialsystem_dx11.dll") == 0)
 		{
-			WebmRenderer::RegisterHooks(module) ? Successed(5) : ErrorOccurred();
+			WebmRenderer::RegisterHooks(module) ? LoadSucceeded(5) : ErrorOccurred();
 		}
 	}
 
@@ -147,7 +147,7 @@ public:
 		if(!(HookStatus & 1u << 6))
 		{
 			if(WebmRenderer::Ready())
-				Successed(6);
+				LoadSucceeded(6);
 			return;
 		}
 

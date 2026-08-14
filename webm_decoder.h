@@ -69,7 +69,7 @@ private:
 		return Cleanup();
 	}
 	template<typename... Args>
-	bool Fail(std::format_string<Args...> fmt, Args&&... args)
+	bool Fail(std::format_string<Args...> fmt, Args&&... args) const
 	{
 		PluginLogError(fmt, std::forward<Args>(args)...);
 		return false;

@@ -578,7 +578,6 @@ uint64_t __fastcall Hook_BinkSetSoundOnOff(void* bink, int enabled)
 		return BinkSetSoundOnOff(bink, enabled);
 
 	handle->audioPlayer.SetSoundEnabled(static_cast<bool>(enabled));
-
 	return static_cast<uint64_t>(handle->decoder.HasAudio());
 }
 
